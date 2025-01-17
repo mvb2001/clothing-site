@@ -1,33 +1,37 @@
-import React, { useState } from 'react';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import './App.css';
-
-import SignUp from './pages/SignUp';
-import SignIn from './pages/SignIn';
-import Products from './pages/Products';
+import React, { useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
+import Navbar from './components/Navbar';
+import Home from './pages/Home';
+import Login from './pages/Login';
+import Signup from './pages/Signup';
+import AdminPanel from './components/AdminPanel';
 
 function App() {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    navigate('/login'); // Redirect to /login on initial load
+  }, [navigate]);
+
+  return (
+    <div>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/admin" element={<AdminPanel />} />
+      </Routes>
+    </div>
+  );
+}
+
+function AppWrapper() {
   return (
     <Router>
-      <div className="App">
-        <header>
-          <nav>
-            <ul>
-              <li><Link to="/signup">Sign Up</Link></li>
-              <li><Link to="/signin">Sign In</Link></li>
-              <li><Link to="/products">Products</Link></li>
-            </ul>
-          </nav>
-        </header>
-
-        <Routes>
-          <Route path="/signup" element={<SignUp />} />
-          <Route path="/signin" element={<SignIn />} />
-          <Route path="/products" element={<Products />} />
-        </Routes>
-      </div>
+      <App />
     </Router>
   );
 }
 
-export default App;
+export default AppWrapper;
